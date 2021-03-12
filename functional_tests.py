@@ -46,7 +46,6 @@ class NewVisitorTest(unittest.TestCase):
 
         self.check_for_row_in_list_table('1. Buy peacock feathers')
 
-
         # There is still a text box inviting her to add another item. She
         # enters "Use peacock feathers to make a fly" (Edith is very methodical)
         inputbox = self.browser.find_element_by_id('id_new_item')
