@@ -15,4 +15,3 @@ class HomePageTest(TestCase):
             'A new list item', response.content.decode()
         )
         self.assertTemplateUsed(response, 'home.html')
-
