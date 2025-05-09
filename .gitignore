@@ -3,3 +3,5 @@ __pycache__
 .pyc
 geckodriver.log
 tdd/
+.pytest_cache
+
