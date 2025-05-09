@@ -1,5 +1,4 @@
 from django.http import HttpRequest
-from django.template.loader import render_to_string
 from django.test import TestCase
 
 from lists.models import Item
@@ -12,23 +11,23 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
-    # def test_home_page_returns_correct_html(self):
-    #     request = HttpRequest()
-    #     expected_html = render_to_string('home.html')
-    #     response = home_page(request)
-
-    #     self.assertEqual(response.content.decode(), expected_html)
-
     def test_home_page_can_save_a_POST_request(self):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['item_text'] = 'Nowy element listy'
 
-        response = home_page(request)
+        home_page(request)
 
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'Nowy element listy')
+
+    def test_home_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = 'Nowy element listy'
+
+        response = home_page(request)
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
@@ -38,6 +37,15 @@ class HomePageTest(TestCase):
         home_page(request)
         self.assertEqual(Item.objects.count(), 0)
 
+    def test_home_page_displays_all_list_items(self):
+        Item.objects.create(text="itemik 1")
+        Item.objects.create(text="itemik 2")
+
+        request = HttpRequest()
+        response = home_page(request)
+
+        self.assertIn("itemik 1", response.content.decode())
+        self.assertIn("itemik 2", response.content.decode())
 
 class ItemModelTest(TestCase):
 

@@ -1,0 +1,7 @@
+# CORE
+Django==5.2.1
+
+# DEV
+pytest==8.3.5
+pytest-django==4.11.1
+selenium==4.32.0
